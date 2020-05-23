@@ -1,12 +1,13 @@
 package com.egiwon.scopedstorageexample
 
-import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.egiwon.scopedstorageexample.ext.startActivity
+import com.egiwon.scopedstorageexample.image.ImagePickerActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    fun startImagePickerExam(view: View) {
+        startActivity<ImagePickerActivity>()
     }
 }
