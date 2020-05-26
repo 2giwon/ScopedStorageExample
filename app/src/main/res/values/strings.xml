@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ScopedStorageExample</string>
     <string name="start_image_picker">start image picker</string>
+    <string name="start_file_browser">start file browser</string>
 </resources>

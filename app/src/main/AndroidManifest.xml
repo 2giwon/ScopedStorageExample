@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".image.ImagePickerActivity" />
+        <activity android:name=".filebrowser.FileBrowserActivity" />
     </application>
 
 </manifest>
