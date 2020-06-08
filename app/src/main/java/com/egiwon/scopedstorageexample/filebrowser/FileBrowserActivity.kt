@@ -2,6 +2,7 @@ package com.egiwon.scopedstorageexample.filebrowser
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.egiwon.scopedstorageexample.R
@@ -27,7 +28,16 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
     }
 
     override fun addObserve() {
-        viewModel.directoryUri.observe(this, Observer {
+        viewModel.directoryUri.observe(this, Observer { event ->
+            event.getContentIfNotHandled().let {
+                val documentFile: DocumentFile =
+                    DocumentFile.fromTreeUri(
+                        this@FileBrowserActivity,
+                        it
+                            ?: return@let
+                    ) ?: return@Observer
+                viewModel.loadDirectory(documentFile)
+            }
 
         })
     }

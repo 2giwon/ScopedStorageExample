@@ -28,9 +28,9 @@ class FileViewAdapter(
     ) {
 
         override fun onBind(item: Any?) {
-            super.onBind(item)
             binding.vm = viewModel
             binding.documentItem = item as DocumentItem
+            binding.executePendingBindings()
         }
     }
 }

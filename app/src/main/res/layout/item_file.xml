@@ -28,12 +28,13 @@
             android:id="@+id/iv_entry"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/ic_folder"
+            app:directorySrc="@{documentItem.isDirectory}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,1:1.2"
             app:layout_constraintEnd_toEndOf="@id/_split_end"
             app:layout_constraintStart_toEndOf="@id/_split_begin"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_folder" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/_split_end"

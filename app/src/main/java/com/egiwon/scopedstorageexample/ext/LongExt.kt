@@ -18,5 +18,5 @@ private fun getDecimalFormat(size: Long, digitGroup: Int) =
 
 fun Long.toLastModifiedTime(): String {
     val date = Date(this)
-    return SimpleDateFormat("YY/MM/DD", Locale.getDefault()).format(date)
+    return SimpleDateFormat("YY/MM/dd", Locale.getDefault()).format(date)
 }

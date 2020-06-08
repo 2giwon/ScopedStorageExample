@@ -26,7 +26,5 @@ abstract class BaseAdapter<ANY : Any, VDB : ViewDataBinding>(
                 addAll(items)
             }
         }
-
-        notifyDataSetChanged()
     }
 }
