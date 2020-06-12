@@ -1,17 +1,12 @@
 package com.egiwon.scopedstorageexample.model
 
-import androidx.documentfile.provider.DocumentFile
-import com.egiwon.scopedstorageexample.ext.toFileSizeUnit
-import com.egiwon.scopedstorageexample.ext.toLastModifiedTime
+import android.net.Uri
 
-data class DocumentItem(private val documentFile: DocumentFile) {
-    val name: String? = documentFile.name
-
-    val type: String? by lazy { documentFile.type }
-
-    val size: String? by lazy { documentFile.length().toFileSizeUnit() }
-
-    val lastModified: String? by lazy { documentFile.lastModified().toLastModifiedTime() }
-
-    val isDirectory: Boolean = documentFile.isDirectory
-}
+data class DocumentItem(
+    val name: String,
+    val type: String,
+    val isDirectory: Boolean,
+    val uri: Uri,
+    val size: String,
+    val lastModified: String
+)

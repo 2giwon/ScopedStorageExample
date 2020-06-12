@@ -1,15 +1,16 @@
 package com.egiwon.scopedstorageexample.base
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application) {
     protected val compositeDisposable = CompositeDisposable()
 
-    protected val mutableErrorTextResId = MutableLiveData<Int>()
-    val errorTextResId: LiveData<Int> get() = mutableErrorTextResId
+    protected val errorThrowableMutableLiveData = MutableLiveData<Throwable>()
+    val errorThrowableLiveData: LiveData<Throwable> get() = errorThrowableMutableLiveData
 
     override fun onCleared() {
         compositeDisposable.clear()
