@@ -26,7 +26,9 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
     }
 
     protected open fun addObserve() {
-        viewModel.errorTextResId.observe(this, Observer { showToast(it) })
+        viewModel.errorThrowableLiveData.observe(this, Observer {
+            showToast(it.message ?: return@Observer)
+        })
     }
 
     protected fun bind(action: VDB.() -> Unit) {

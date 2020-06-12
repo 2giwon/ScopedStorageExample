@@ -15,7 +15,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> vm.onClick(documentItem)}">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/_split_begin"
