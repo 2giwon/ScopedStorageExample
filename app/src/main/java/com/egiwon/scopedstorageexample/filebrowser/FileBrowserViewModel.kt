@@ -9,9 +9,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.egiwon.scopedstorageexample.Event
 import com.egiwon.scopedstorageexample.base.BaseViewModel
+import com.egiwon.scopedstorageexample.data.FileBrowserRepository
 import com.egiwon.scopedstorageexample.ext.toFileSizeUnit
 import com.egiwon.scopedstorageexample.ext.toLastModifiedTime
 import com.egiwon.scopedstorageexample.model.DocumentItem
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -19,7 +21,10 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class FileBrowserViewModel(application: Application) : BaseViewModel(application) {
+class FileBrowserViewModel(
+    application: Application,
+    private val repository: FileBrowserRepository
+) : BaseViewModel(application) {
 
     private val _directoryUri = MutableLiveData<Event<Uri>>()
     val directoryUri: LiveData<Event<Uri>> get() = _directoryUri
@@ -29,8 +34,6 @@ class FileBrowserViewModel(application: Application) : BaseViewModel(application
 
     private val _loadingBar = MutableLiveData<Boolean>()
     val loadingBar: LiveData<Boolean> get() = _loadingBar
-
-    private val _documentList = mutableListOf<DocumentItem>()
 
     private val _directoryLiveData = MutableLiveData<Event<DocumentItem>>()
     val directoryLiveData: LiveData<Event<DocumentItem>> get() = _directoryLiveData
@@ -206,24 +209,24 @@ class FileBrowserViewModel(application: Application) : BaseViewModel(application
     }
 
     fun saveRootUri(uri: String) {
-//        Completable.create {
-//            repository.saveRootUri(uri)
-//            it.onComplete()
-//        }
-//            .subscribeOn(ioThreadSchedulers)
-//            .observeOn(mainThreadSchedulers)
-//            .subscribe()
-//            .addTo(compositeDisposable)
+        Completable.create {
+            repository.saveRootUri(uri)
+            it.onComplete()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+            .addTo(compositeDisposable)
     }
 
     fun loadRootUri() {
-//        repository.loadRootUri()
-//            .subscribeOn(ioThreadSchedulers)
-//            .observeOn(mainThreadSchedulers)
-//            .subscribeBy {
-//                setDocumentUri(Uri.parse(it))
-//            }
-//            .addTo(compositeDisposable)
+        repository.loadRootUri()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy {
+                setDocumentUri(Uri.parse(it))
+            }
+            .addTo(compositeDisposable)
     }
 
     private fun addBreadCrumbs(uri: Uri) {

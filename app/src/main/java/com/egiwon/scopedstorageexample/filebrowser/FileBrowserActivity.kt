@@ -3,7 +3,6 @@ package com.egiwon.scopedstorageexample.filebrowser
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.egiwon.scopedstorageexample.R
@@ -32,7 +31,7 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
             initAdapter()
         }
 
-        openIntentDirectory()
+        viewModel.loadRootUri()
         addObserve()
 
         processBackPressedExit()
@@ -41,7 +40,11 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
     override fun addObserve() {
         viewModel.directoryUri.observe(this, Observer { event ->
             event.getContentIfNotHandled().let {
-                viewModel.loadDirectory(it ?: return@Observer)
+                if (it.toString().isNotEmpty()) {
+                    viewModel.loadDirectory(it ?: return@Observer)
+                } else {
+                    openIntentDirectory()
+                }
             }
         })
 
@@ -84,6 +87,7 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
                 )
 
                 viewModel.setDirectoryUri(directoryUri)
+                viewModel.saveRootUri(directoryUri.toString())
             } else {
                 finish()
             }
@@ -99,7 +103,7 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
     private fun openIntentDirectory() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
         }
 
         startActivityForResult(intent, OPEN_DIRECTORY_REQUEST_CODE)
@@ -116,11 +120,7 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
                 if (it.second - it.first < 2000L) {
                     super.onBackPressed()
                 } else {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.back_press_exit),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(R.string.back_press_exit)
                 }
             }.addTo(compositeDisposable)
     }
@@ -133,11 +133,7 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
             }
             startActivity(openIntent)
         } catch (ex: ActivityNotFoundException) {
-            Toast.makeText(
-                this,
-                resources.getString(R.string.error_invalid_activity, item.name),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(getString(R.string.error_invalid_activity, item.name))
         }
     }
 
