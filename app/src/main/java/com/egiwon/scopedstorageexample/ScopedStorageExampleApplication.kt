@@ -1,6 +1,9 @@
 package com.egiwon.scopedstorageexample
 
 import android.app.Application
+import com.egiwon.scopedstorageexample.di.dataSourceModule
+import com.egiwon.scopedstorageexample.di.preferenceModule
+import com.egiwon.scopedstorageexample.di.repositoryModule
 import com.egiwon.scopedstorageexample.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
@@ -15,7 +18,7 @@ class ScopedStorageExampleApplication : Application() {
             logger((if (BuildConfig.DEBUG) AndroidLogger() else EmptyLogger()))
             androidContext(this@ScopedStorageExampleApplication)
             modules(
-                viewModelModule
+                viewModelModule, dataSourceModule, repositoryModule, preferenceModule
             )
         }
     }
