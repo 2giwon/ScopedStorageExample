@@ -3,4 +3,5 @@
     <string name="start_image_picker">start image picker</string>
     <string name="start_file_browser">start file browser</string>
     <string name="back_press_exit">Press Back key one more for EXIT</string>
+    <string name="error_invalid_activity">No Activity Found to open "%1$s".</string>
 </resources>

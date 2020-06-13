@@ -1,5 +1,6 @@
 package com.egiwon.scopedstorageexample.filebrowser
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.egiwon.scopedstorageexample.R
 import com.egiwon.scopedstorageexample.base.BaseActivity
 import com.egiwon.scopedstorageexample.databinding.ActivityFileBrowserBinding
+import com.egiwon.scopedstorageexample.model.DocumentItem
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
@@ -51,7 +53,7 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
 
         viewModel.documentLiveData.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let { document ->
-//                openDocument(document)
+                openDocument(document)
             }
         })
 
@@ -121,6 +123,22 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
                     ).show()
                 }
             }.addTo(compositeDisposable)
+    }
+
+    private fun openDocument(item: DocumentItem) {
+        try {
+            val openIntent = Intent(Intent.ACTION_VIEW).apply {
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                data = item.uri
+            }
+            startActivity(openIntent)
+        } catch (ex: ActivityNotFoundException) {
+            Toast.makeText(
+                this,
+                resources.getString(R.string.error_invalid_activity, item.name),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     companion object {
