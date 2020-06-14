@@ -48,12 +48,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_file_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:layout_marginStart="8dp"
             android:text="@{documentItem.name}"
+            android:singleLine="true"
             app:layout_constraintEnd_toStartOf="@id/_barrier"
-            app:layout_constraintHorizontal_bias=".05"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/_split_end"
             app:layout_constraintTop_toTopOf="parent"

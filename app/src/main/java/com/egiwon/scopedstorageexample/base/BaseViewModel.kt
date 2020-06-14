@@ -1,12 +1,11 @@
 package com.egiwon.scopedstorageexample.base
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseViewModel(application: Application) : AndroidViewModel(application) {
+abstract class BaseViewModel : ViewModel() {
     protected val compositeDisposable = CompositeDisposable()
 
     protected val errorThrowableMutableLiveData = MutableLiveData<Throwable>()
