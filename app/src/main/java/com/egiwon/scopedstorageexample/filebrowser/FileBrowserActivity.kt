@@ -3,8 +3,8 @@ package com.egiwon.scopedstorageexample.filebrowser
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.egiwon.scopedstorageexample.EventObserver
 import com.egiwon.scopedstorageexample.R
 import com.egiwon.scopedstorageexample.base.BaseActivity
 import com.egiwon.scopedstorageexample.databinding.ActivityFileBrowserBinding
@@ -38,32 +38,24 @@ class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowser
     }
 
     override fun addObserve() {
-        viewModel.directoryUri.observe(this, Observer { event ->
-            event.getContentIfNotHandled().let {
-                if (it.toString().isNotEmpty()) {
-                    viewModel.loadDirectory(it ?: return@Observer)
-                } else {
-                    openIntentDirectory()
-                }
+        viewModel.directoryUri.observe(this, EventObserver {
+            if (it.toString().isNotEmpty()) {
+                viewModel.loadDirectory(it)
+            } else {
+                openIntentDirectory()
             }
         })
 
-        viewModel.directoryLiveData.observe(this, Observer { event ->
-            event.getContentIfNotHandled()?.let { document ->
-                viewModel.setDocumentUri(document.uri)
-            }
+        viewModel.directoryLiveData.observe(this, EventObserver { document ->
+            viewModel.setDocumentUri(document.uri)
         })
 
-        viewModel.documentLiveData.observe(this, Observer { event ->
-            event.getContentIfNotHandled()?.let { document ->
-                openDocument(document)
-            }
+        viewModel.documentLiveData.observe(this, EventObserver { document ->
+            openDocument(document)
         })
 
-        viewModel.isBackBreadCrumbsEmpty.observe(this, Observer { event ->
-            event.getContentIfNotHandled()?.let {
-                behaviorSubject.onNext(System.currentTimeMillis())
-            }
+        viewModel.isBackBreadCrumbsEmpty.observe(this, EventObserver {
+            behaviorSubject.onNext(System.currentTimeMillis())
         })
     }
 
