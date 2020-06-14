@@ -2,8 +2,9 @@ package com.egiwon.scopedstorageexample.data.source.preference
 
 import android.content.Context
 import io.reactivex.Single
+import javax.inject.Inject
 
-class FileBrowserPreferenceService(
+class FileBrowserPreferenceService @Inject constructor(
     private val applicationContext: Context
 ) : PreferenceService {
     override fun saveRootUriToPreference(uri: String) {

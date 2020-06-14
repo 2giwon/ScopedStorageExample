@@ -3,22 +3,24 @@ package com.egiwon.scopedstorageexample.filebrowser
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.egiwon.scopedstorageexample.EventObserver
 import com.egiwon.scopedstorageexample.R
 import com.egiwon.scopedstorageexample.base.BaseActivity
 import com.egiwon.scopedstorageexample.databinding.ActivityFileBrowserBinding
 import com.egiwon.scopedstorageexample.model.DocumentItem
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class FileBrowserActivity : BaseActivity<ActivityFileBrowserBinding, FileBrowserViewModel>(
     R.layout.activity_file_browser
 ) {
 
-    override val viewModel: FileBrowserViewModel by viewModel()
+    override val viewModel: FileBrowserViewModel by viewModels()
 
     private val behaviorSubject = BehaviorSubject.createDefault(0L)
 

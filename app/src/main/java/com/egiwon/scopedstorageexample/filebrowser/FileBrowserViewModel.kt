@@ -1,6 +1,7 @@
 package com.egiwon.scopedstorageexample.filebrowser
 
 import android.net.Uri
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.egiwon.scopedstorageexample.Event
@@ -16,7 +17,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class FileBrowserViewModel(
+class FileBrowserViewModel @ViewModelInject constructor(
     private val repository: FileBrowserRepository,
     private val documentProvider: DocumentProvider
 ) : BaseViewModel() {

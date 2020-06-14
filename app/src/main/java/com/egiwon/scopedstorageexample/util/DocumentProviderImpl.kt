@@ -8,8 +8,11 @@ import android.provider.DocumentsContract
 import com.egiwon.scopedstorageexample.ext.toFileSizeUnit
 import com.egiwon.scopedstorageexample.ext.toLastModifiedTime
 import com.egiwon.scopedstorageexample.model.DocumentItem
+import javax.inject.Inject
 
-class DocumentProviderImpl(private val applicationContext: Context) : DocumentProvider {
+class DocumentProviderImpl @Inject constructor(
+    private val applicationContext: Context
+) : DocumentProvider {
     override fun getDocuments(documentUri: Uri): List<DocumentItem> {
         return loadDirectoryFromContentResolver(documentUri)
     }

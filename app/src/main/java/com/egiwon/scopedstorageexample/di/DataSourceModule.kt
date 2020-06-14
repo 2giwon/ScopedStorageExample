@@ -2,13 +2,21 @@ package com.egiwon.scopedstorageexample.di
 
 import com.egiwon.scopedstorageexample.data.FileBrowserRepository
 import com.egiwon.scopedstorageexample.data.FileBrowserRepositoryImpl
-import com.egiwon.scopedstorageexample.util.DocumentProvider
-import com.egiwon.scopedstorageexample.util.DocumentProviderImpl
-import org.koin.android.ext.koin.androidApplication
-import org.koin.dsl.module
+import com.egiwon.scopedstorageexample.data.source.FileBrowserDataSource
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 
-val dataSourceModule = module {
-    single<FileBrowserRepository> { FileBrowserRepositoryImpl(get()) }
+@Module
+@InstallIn(ActivityRetainedComponent::class)
+class DataSourceModule {
 
-    single<DocumentProvider> { DocumentProviderImpl(androidApplication()) }
+    @ActivityRetainedScoped
+    @Provides
+    fun provideFileBrowserRepository(
+        fileBrowserDataSource: FileBrowserDataSource
+    ): FileBrowserRepository = FileBrowserRepositoryImpl(fileBrowserDataSource)
+
 }
