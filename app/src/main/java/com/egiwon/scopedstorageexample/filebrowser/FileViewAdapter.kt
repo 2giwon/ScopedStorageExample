@@ -27,10 +27,12 @@ class FileViewAdapter(
         layoutResId, parent
     ) {
 
-        override fun onBind(item: Any?) {
-            binding.vm = viewModel
-            binding.documentItem = item as DocumentItem
-            binding.executePendingBindings()
+        override fun onBind(item: Any?) = binding.bind(item)
+
+        private fun ItemFileBinding.bind(item: Any?) {
+            vm = viewModel
+            documentItem = item as DocumentItem
+            executePendingBindings()
         }
     }
 }
