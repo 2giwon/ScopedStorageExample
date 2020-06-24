@@ -14,14 +14,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".filebrowser.FileBrowserActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_files"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:replaceItems="@{vm.documents}"
             app:layoutManager="LinearLayoutManager"
+            app:replaceItems="@{vm.documents}"
             tools:listitem="@layout/item_file" />
 
         <ProgressBar

@@ -74,9 +74,7 @@ class FileBrowserViewModel @ViewModelInject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onError = {
-                    errorThrowableMutableLiveData.value = it
-                },
+                onError = { errorThrowableMutableLiveData.value = it },
                 onComplete = {
                     _documents.value = documentList
                         .asSequence()
